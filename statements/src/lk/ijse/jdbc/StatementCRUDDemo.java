@@ -34,6 +34,8 @@ public class StatementCRUDDemo {
 
         int affectedRows = statement.executeUpdate(sql);
         System.out.println("affectedRows: " + affectedRows);
+
+        connection.close();
     }
 
     private static void updateCustomer() throws ClassNotFoundException, SQLException {
@@ -44,6 +46,8 @@ public class StatementCRUDDemo {
         String sql = "UPDATE Customer SET name = \"deshan\", address = \"Jaffna\", salary = 23223 WHERE id = \"C024\"";
         int affectedRows = statement.executeUpdate(sql);
         System.out.println(affectedRows > 0 ? "updated!!" : "not updated!");
+
+        connection.close();
     }
 
     private static void deleteCustomer() {
