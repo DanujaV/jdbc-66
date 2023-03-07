@@ -9,15 +9,23 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class StatementCRUDDemo {
+    private static final String URL = "jdbc:mysql://localhost:3306/ThogaKade";
+    private static final Properties props = new Properties();
+
+    static {
+        props.setProperty("user", "root");
+        props.setProperty("password", "Danu25412541@");
+    }
+
     private static void insertCustomer() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/ThogaKade",
-                "root",
-                "Danu25412541@"
+                URL,
+                props
         );
 
         Statement statement = connection.createStatement();
@@ -28,7 +36,14 @@ public class StatementCRUDDemo {
         System.out.println("affectedRows: " + affectedRows);
     }
 
+    private static void updateCustomer() {
+//UPDATE Customer SET name = "deshan", address = "Jaffna", salary = 23223 WHERE id = "C024";
+    }
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         insertCustomer();
+
+        updateCustomer();
     }
+
 }
