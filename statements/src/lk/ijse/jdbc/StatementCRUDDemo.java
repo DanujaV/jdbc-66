@@ -46,10 +46,16 @@ public class StatementCRUDDemo {
         System.out.println(affectedRows > 0 ? "updated!!" : "not updated!");
     }
 
+    private static void deleteCustomer() {
+        // DELETE FROM Customer WHERE id = "C025";
+    }
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 //        insertCustomer();
 
         updateCustomer();
+
+        deleteCustomer();
     }
 
 }
