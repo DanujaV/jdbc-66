@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,10 +14,10 @@
       <TextField fx:id="txtName" layoutX="205.0" layoutY="89.0" promptText="Name" />
       <TextField fx:id="txtAddress" layoutX="18.0" layoutY="155.0" promptText="Address" />
       <TextField fx:id="txtSalary" layoutX="207.0" layoutY="155.0" promptText="Salary" />
-      <Button layoutX="306.0" layoutY="208.0" mnemonicParsing="false" onAction="#btnSaveOnAction" style="-fx-background-color: lightblue;" text="Save">
+      <JFXButton buttonType="RAISED" layoutX="307.0" layoutY="199.0" onAction="#btnSaveOnAction" style="-fx-background-color: lightblue;" text="Save">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
-      </Button>
+      </JFXButton>
    </children>
 </AnchorPane>
