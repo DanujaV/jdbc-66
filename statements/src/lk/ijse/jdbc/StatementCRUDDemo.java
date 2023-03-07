@@ -50,8 +50,18 @@ public class StatementCRUDDemo {
         connection.close();
     }
 
-    private static void deleteCustomer() {
+    private static void deleteCustomer() throws ClassNotFoundException, SQLException {
         // DELETE FROM Customer WHERE id = "C025";
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(URL, props);
+
+        String sql = "DELETE FROM Customer WHERE id = \"C025\"";
+        Statement statement = connection.createStatement();
+        int affectedRows = statement.executeUpdate(sql);
+
+        System.out.println(affectedRows > 0 ? "deleted!!" : "not delete!");
+
+        connection.close();
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
