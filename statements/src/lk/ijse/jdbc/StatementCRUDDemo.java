@@ -70,7 +70,7 @@ public class StatementCRUDDemo {
 
         ResultSet resultSet = statement.executeQuery(sql);
 
-        if(resultSet.next()) {
+        if (resultSet.next()) {
             String id = resultSet.getString(1);
             String name = resultSet.getString(2);
             String address = resultSet.getString(3);
@@ -81,6 +81,42 @@ public class StatementCRUDDemo {
 
     }
 
+    private static void searchAll() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(URL, props);
+        Statement statement = connection.createStatement();
+
+        String sql = "SELECT * FROM Customer";
+
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        while (resultSet.next()) {
+            String id = resultSet.getString(1);
+            String name = resultSet.getString(2);
+            String address = resultSet.getString(3);
+            double salary = resultSet.getDouble(4);
+
+            System.out.println(id + " - " + name + " - " + address + " - " + salary);
+        }
+
+        /*resultSet.next();
+
+        String id = resultSet.getString(1);
+        String name = resultSet.getString(2);
+        String address = resultSet.getString(3);
+        double salary = resultSet.getDouble(4);
+
+        System.out.println(id + " - " + name + " - " + address + " - " + salary);
+
+        resultSet.next();
+        String id2 = resultSet.getString(1);
+        String name2 = resultSet.getString(2);
+        String address2 = resultSet.getString(3);
+        double salary2 = resultSet.getDouble(4);
+
+        System.out.println(id2 + " - " + name2 + " - " + address2 + " - " + salary2);*/
+    }
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 //        insertCustomer();
 
@@ -88,7 +124,9 @@ public class StatementCRUDDemo {
 
         deleteCustomer();
 
-        searchById();
+//        searchById();
+
+        searchAll();
     }
 
 }
