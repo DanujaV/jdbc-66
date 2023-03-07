@@ -5,10 +5,7 @@ package lk.ijse.jdbc;
     @created 3/7/23 - 11:27 AM   
 */
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Properties;
 
 public class StatementCRUDDemo {
@@ -64,12 +61,34 @@ public class StatementCRUDDemo {
         connection.close();
     }
 
+    private static void searchById() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(URL, props);
+        Statement statement = connection.createStatement();
+
+        String sql = "SELECT * FROM Customer WHERE id = \"C002\"";
+
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        if(resultSet.next()) {
+            String id = resultSet.getString(1);
+            String name = resultSet.getString(2);
+            String address = resultSet.getString(3);
+            double salary = resultSet.getDouble(4);
+
+            System.out.println(id + " - " + name + " - " + address + " - " + salary);
+        }
+
+    }
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 //        insertCustomer();
 
         updateCustomer();
 
         deleteCustomer();
+
+        searchById();
     }
 
 }
