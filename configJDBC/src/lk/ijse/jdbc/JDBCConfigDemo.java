@@ -11,21 +11,30 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class JDBCConfigDemo {
-    static Connection connection;
-    static Statement statement;
+    private static final String URL = "jdbc:mysql://localhost:3306/ThogaKade";
+    private static final Properties props = new Properties();
+
+    static {
+        props.setProperty("user", "root");
+        props.setProperty("password", "Danu25412541@");
+    }
+    private static Connection connection;
+    private static Statement statement;
     private static void loadRegisterDriver() throws ClassNotFoundException {
 //        DriverManager.registerDriver(new Driver());
         Class.forName("com.mysql.cj.jdbc.Driver");
     }
 
     private static void establishedConnection() throws SQLException {
-        connection = DriverManager.getConnection(
+        /*connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/ThogaKade",
                 "root",
                 "Danu25412541@"
-        );
+        );*/
+        connection = DriverManager.getConnection(URL, props);
     }
 
     private static void createStatement() throws SQLException {
