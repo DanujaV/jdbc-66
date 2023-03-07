@@ -36,12 +36,18 @@ public class StatementCRUDDemo {
         System.out.println("affectedRows: " + affectedRows);
     }
 
-    private static void updateCustomer() {
-//UPDATE Customer SET name = "deshan", address = "Jaffna", salary = 23223 WHERE id = "C024";
+    private static void updateCustomer() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(URL, props);
+        Statement statement = connection.createStatement();
+
+        String sql = "UPDATE Customer SET name = \"deshan\", address = \"Jaffna\", salary = 23223 WHERE id = \"C024\"";
+        int affectedRows = statement.executeUpdate(sql);
+        System.out.println(affectedRows > 0 ? "updated!!" : "not updated!");
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        insertCustomer();
+//        insertCustomer();
 
         updateCustomer();
     }
