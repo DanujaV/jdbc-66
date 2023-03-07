@@ -78,6 +78,7 @@ public class StatementCRUDDemo {
 
             System.out.println(id + " - " + name + " - " + address + " - " + salary);
         }
+        connection.close();
 
     }
 
@@ -98,6 +99,7 @@ public class StatementCRUDDemo {
 
             System.out.println(id + " - " + name + " - " + address + " - " + salary);
         }
+        connection.close();
 
         /*resultSet.next();
 
