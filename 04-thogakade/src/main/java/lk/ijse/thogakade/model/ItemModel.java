@@ -52,4 +52,14 @@ public class ItemModel {
             return pstm.executeUpdate() > 0;
         }
     }
+
+    public static boolean delete(String code) throws SQLException {
+        try(Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "DELETE FROM Item WHERE code = ?";
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, code);
+
+            return pstm.executeUpdate() > 0;
+        }
+    }
 }
