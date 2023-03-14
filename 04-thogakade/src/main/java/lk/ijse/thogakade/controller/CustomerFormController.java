@@ -12,10 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class CustomerFormController {
@@ -103,7 +100,26 @@ public class CustomerFormController {
     }
 
     @FXML
-    void codeSearchOnAction(ActionEvent event) {
+    void codeSearchOnAction(ActionEvent event) throws SQLException {
+        String id = txtId.getText();
 
+        try(Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "SELECT * FROM Customer WHERE id = ?";
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, id);
+
+            ResultSet resultSet = pstm.executeQuery();
+            if(resultSet.next()) {
+                String cus_id = resultSet.getString(1);
+                String cus_name = resultSet.getString(2);
+                String cus_address = resultSet.getString(3);
+                double cus_salary = resultSet.getDouble(4);
+
+                txtId.setText(cus_id);
+                txtName.setText(cus_name);
+                txtAddress.setText(cus_address);
+                txtSalary.setText(String.valueOf(cus_salary));
+            }
+        }
     }
 }
