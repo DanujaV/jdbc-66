@@ -95,8 +95,25 @@ public class CustomerFormController {
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) {
+    void btnUpdateOnAction(ActionEvent event) throws SQLException {
+        String id = txtId.getText();
+        String name = txtName.getText();
+        String address = txtAddress.getText();
+        double salary = Double.parseDouble(txtSalary.getText());
 
+        try (Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "UPDATE Customer SET name = ?, address = ?, salary = ? WHERE id = ?";
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, name);
+            pstm.setString(2, address);
+            pstm.setDouble(3, salary);
+            pstm.setString(4, id);
+
+            boolean isUpdated = pstm.executeUpdate() > 0;
+            if(isUpdated) {
+                new Alert(Alert.AlertType.CONFIRMATION, "yes! updated!!").show();
+            }
+        }
     }
 
     @FXML
