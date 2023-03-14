@@ -24,13 +24,22 @@ public class DashboardFormController {
         AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/customer_form.fxml"));
 
         Scene scene = new Scene(anchorPane);
+
+        Stage stage = (Stage)root.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Customer Manage");
+        stage.centerOnScreen();
+
+        /*AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/customer_form.fxml"));
+
+        Scene scene = new Scene(anchorPane);
         Stage stage = new Stage();
 
         stage.setScene(scene);
         stage.setTitle("Customer Manage");
         stage.centerOnScreen();
 
-        stage.show();
+        stage.show();*/
     }
 
     @FXML

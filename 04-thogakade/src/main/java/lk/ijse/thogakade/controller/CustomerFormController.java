@@ -7,11 +7,16 @@ package lk.ijse.thogakade.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
 
@@ -55,8 +60,13 @@ public class CustomerFormController {
     private TextField txtSalary;
 
     @FXML
-    void btnBackOnAction(ActionEvent event) {
+    void btnBackOnAction(ActionEvent event) throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
 
+        Stage stage = (Stage) root.getScene().getWindow();
+        stage.setTitle("Dashboard");
+        stage.setScene(new Scene(parent));
+        stage.centerOnScreen();
     }
 
     @FXML
