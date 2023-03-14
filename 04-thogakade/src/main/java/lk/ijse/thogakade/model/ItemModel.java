@@ -5,6 +5,7 @@ package lk.ijse.thogakade.model;
     @created 3/14/23 - 2:27 PM   
 */
 
+import lk.ijse.thogakade.db.DBConnection;
 import lk.ijse.thogakade.dto.Item;
 
 import java.sql.*;
@@ -98,6 +99,25 @@ public class ItemModel {
                 dataList.add(item);
             }
             return dataList;
+        }
+    }
+
+    public static Item search(String code) throws SQLException {
+        try (Connection con = DBConnection.getInstance().getConnection()) {
+            String sql = "SELECT * FROM Item WHERE code = ?";
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, code);
+
+            ResultSet resultSet = pstm.executeQuery();
+            if(resultSet.next()) {
+                return new Item(
+                        resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getDouble(3),
+                        resultSet.getInt(4)
+                );
+            }
+            return null;
         }
     }
 }

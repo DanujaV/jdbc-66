@@ -66,7 +66,7 @@ public class ItemFormController {
         String code = txtCode.getText();
         try {
             boolean isDeleted = ItemModel.delete(code);
-            if(isDeleted) {
+            if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "deleted!").show();
             }
         } catch (SQLException e) {
@@ -79,7 +79,7 @@ public class ItemFormController {
         try {
             List<Item> itemList = ItemModel.getAll();
 
-            if(itemList != null) {
+            if (itemList != null) {
                 for (Item item : itemList) {
                     System.out.println(item.getCode() + " - " + item.getDescription() + " - " + item.getUnitPrice() + " - " + item.getQtyOnHand());
                 }
@@ -101,7 +101,7 @@ public class ItemFormController {
         try {
 //            boolean isSaved = ItemModel.save(code, description, unitPrice, qtyOnHand);
             boolean isSaved = ItemModel.save(item);
-            if(isSaved) {
+            if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Item saved!").show();
             }
         } catch (SQLException e) {
@@ -127,6 +127,16 @@ public class ItemFormController {
 
     @FXML
     void codeSearchOnAction(ActionEvent event) {
-
+        try {
+            Item item = ItemModel.search(txtCode.getText());
+            if (item != null) {
+                txtCode.setText(item.getCode());
+                txtDescription.setText(item.getDescription());
+                txtUnitPrice.setText(String.valueOf(item.getUnitPrice()));
+                txtQtyOnHand.setText(String.valueOf(item.getQtyOnHand()));
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "something happened!").show();
+        }
     }
 }
