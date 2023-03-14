@@ -65,8 +65,18 @@ public class CustomerFormController {
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) {
+    void btnDeleteOnAction(ActionEvent event) throws SQLException {
+        String id = txtId.getText();
+        try (Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "DELETE FROM Customer WHERE id = ?";
 
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, id);
+
+            if (pstm.executeUpdate() > 0) {
+                new Alert(Alert.AlertType.CONFIRMATION, "deletd!").show();
+            }
+        }
     }
 
     @FXML
@@ -86,7 +96,7 @@ public class CustomerFormController {
             pstm.setDouble(4, salary);
 
             int affectedRows = pstm.executeUpdate();
-            if(affectedRows > 0) {
+            if (affectedRows > 0) {
                 new Alert(Alert.AlertType.CONFIRMATION,
                         "huree!! customer added :)")
                         .show();
@@ -110,7 +120,7 @@ public class CustomerFormController {
             pstm.setString(4, id);
 
             boolean isUpdated = pstm.executeUpdate() > 0;
-            if(isUpdated) {
+            if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "yes! updated!!").show();
             }
         }
@@ -120,13 +130,13 @@ public class CustomerFormController {
     void codeSearchOnAction(ActionEvent event) throws SQLException {
         String id = txtId.getText();
 
-        try(Connection con = DriverManager.getConnection(URL, props)) {
+        try (Connection con = DriverManager.getConnection(URL, props)) {
             String sql = "SELECT * FROM Customer WHERE id = ?";
             PreparedStatement pstm = con.prepareStatement(sql);
             pstm.setString(1, id);
 
             ResultSet resultSet = pstm.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 String cus_id = resultSet.getString(1);
                 String cus_name = resultSet.getString(2);
                 String cus_address = resultSet.getString(3);
