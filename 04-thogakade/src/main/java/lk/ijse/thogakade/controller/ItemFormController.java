@@ -10,12 +10,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.thogakade.model.ItemModel;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class ItemFormController {
     @FXML
@@ -68,12 +71,35 @@ public class ItemFormController {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
+        String code = txtCode.getText();
+        String description = txtDescription.getText();
+        double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+        int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
 
+        try {
+            boolean isSaved = ItemModel.save(code, description, unitPrice, qtyOnHand);
+            if(isSaved) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Item saved!").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "something went wrong!").show();
+        }
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        String code = txtCode.getText();
+        String description = txtDescription.getText();
+        double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+        int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
 
+        try {
+            boolean isUpdated = ItemModel.update(code, description, unitPrice, qtyOnHand);
+            new Alert(Alert.AlertType.CONFIRMATION, "Item updated!").show();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "something went wrong!").show();
+        }
     }
 
     @FXML
