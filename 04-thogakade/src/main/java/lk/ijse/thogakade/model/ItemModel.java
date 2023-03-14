@@ -5,6 +5,8 @@ package lk.ijse.thogakade.model;
     @created 3/14/23 - 2:27 PM   
 */
 
+import lk.ijse.thogakade.dto.Item;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,7 +21,7 @@ public class ItemModel {
         props.setProperty("user", "root");
         props.setProperty("password", "Danu25412541@");
     }
-    public static boolean save(String code, String description, double unitPrice, int qtyOnHand) throws SQLException {
+    /*public static boolean save(String code, String description, double unitPrice, int qtyOnHand) throws SQLException {
         try (Connection con = DriverManager.getConnection(URL, props)) {
             String sql = "INSERT INTO Item(code, description, unitPrice, qtyOnHand) " +
                     "VALUES(?, ?, ?, ?)";
@@ -37,7 +39,7 @@ public class ItemModel {
                 return false;
             }
         }
-    }
+    }*/
 
     public static boolean update(String code, String description, double unitPrice, int qtyOnHand) throws SQLException {
         try (Connection con = DriverManager.getConnection(URL, props)) {
@@ -54,10 +56,25 @@ public class ItemModel {
     }
 
     public static boolean delete(String code) throws SQLException {
-        try(Connection con = DriverManager.getConnection(URL, props)) {
+        try (Connection con = DriverManager.getConnection(URL, props)) {
             String sql = "DELETE FROM Item WHERE code = ?";
             PreparedStatement pstm = con.prepareStatement(sql);
             pstm.setString(1, code);
+
+            return pstm.executeUpdate() > 0;
+        }
+    }
+
+    public static boolean save(Item item) throws SQLException {
+        try (Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "INSERT INTO Item(code, description, unitPrice, qtyOnHand) " +
+                    "VALUES(?, ?, ?, ?)";
+
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setString(1, item.getCode());
+            pstm.setString(2, item.getDescription());
+            pstm.setDouble(3, item.getUnitPrice());
+            pstm.setInt(4, item.getQtyOnHand());
 
             return pstm.executeUpdate() > 0;
         }

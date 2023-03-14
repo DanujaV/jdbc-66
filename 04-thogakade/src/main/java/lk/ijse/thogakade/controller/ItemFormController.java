@@ -15,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.thogakade.dto.Item;
 import lk.ijse.thogakade.model.ItemModel;
 
 import java.io.IOException;
@@ -84,8 +85,11 @@ public class ItemFormController {
         double unitPrice = Double.parseDouble(txtUnitPrice.getText());
         int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
 
+        Item item = new Item(code, description, unitPrice, qtyOnHand);
+
         try {
-            boolean isSaved = ItemModel.save(code, description, unitPrice, qtyOnHand);
+//            boolean isSaved = ItemModel.save(code, description, unitPrice, qtyOnHand);
+            boolean isSaved = ItemModel.save(item);
             if(isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Item saved!").show();
             }
