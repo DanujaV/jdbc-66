@@ -20,6 +20,7 @@ import lk.ijse.thogakade.model.ItemModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ItemFormController {
     @FXML
@@ -75,7 +76,17 @@ public class ItemFormController {
 
     @FXML
     void btnGetAllOnAction(ActionEvent event) {
+        try {
+            List<Item> itemList = ItemModel.getAll();
 
+            if(itemList != null) {
+                for (Item item : itemList) {
+                    System.out.println(item.getCode() + " - " + item.getDescription() + " - " + item.getUnitPrice() + " - " + item.getQtyOnHand());
+                }
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "something happend!").show();
+        }
     }
 
     @FXML

@@ -7,10 +7,9 @@ package lk.ijse.thogakade.model;
 
 import lk.ijse.thogakade.dto.Item;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class ItemModel {
@@ -77,6 +76,28 @@ public class ItemModel {
             pstm.setInt(4, item.getQtyOnHand());
 
             return pstm.executeUpdate() > 0;
+        }
+    }
+
+    public static List<Item> getAll() throws SQLException {
+        try (Connection con = DriverManager.getConnection(URL, props)) {
+            String sql = "SELECT * FROM Item";
+            PreparedStatement pstm = con.prepareStatement(sql);
+
+            ResultSet resultSet = pstm.executeQuery();
+
+            List<Item> dataList = new ArrayList<>();
+
+            while (resultSet.next()) {
+                String code = resultSet.getString(1);
+                String description = resultSet.getString(2);
+                Double unitPrice = resultSet.getDouble(3);
+                Integer qtyOnHand = resultSet.getInt(4);
+
+                Item item = new Item(code, description, unitPrice, qtyOnHand);
+                dataList.add(item);
+            }
+            return dataList;
         }
     }
 }
