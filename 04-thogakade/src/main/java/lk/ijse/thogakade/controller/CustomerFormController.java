@@ -8,6 +8,7 @@ package lk.ijse.thogakade.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -17,10 +18,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
-public class CustomerFormController {
+public class CustomerFormController implements Initializable {
     private static final String URL = "jdbc:mysql://localhost:3306/ThogaKade";
     private static final Properties props = new Properties();
 
@@ -58,6 +61,11 @@ public class CustomerFormController {
 
     @FXML
     private TextField txtSalary;
+
+    @Override
+    public void initialize(java.net.URL url, ResourceBundle resourceBundle) {
+        System.out.println("customer form loaded!!!!");
+    }
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
@@ -159,4 +167,5 @@ public class CustomerFormController {
             }
         }
     }
+
 }
