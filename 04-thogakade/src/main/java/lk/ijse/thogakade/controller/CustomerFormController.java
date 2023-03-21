@@ -16,10 +16,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.thogakade.dto.Customer;
+import lk.ijse.thogakade.model.CustomerModel;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -64,7 +67,26 @@ public class CustomerFormController implements Initializable {
 
     @Override
     public void initialize(java.net.URL url, ResourceBundle resourceBundle) {
-        System.out.println("customer form loaded!!!!");
+       getAll();
+    }
+
+    private void getAll() {
+        try {
+            List<Customer> cusList = CustomerModel.getAll();
+
+            for (Customer customer : cusList) {
+                System.out.println(
+                        customer.getId() + " - " +
+                                customer.getName() + " - " +
+                                customer.getAddress() + " - " +
+                                customer.getSalary()
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
     }
 
     @FXML
