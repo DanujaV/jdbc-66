@@ -120,4 +120,33 @@ public class ItemModel {
             return null;
         }
     }
+
+    public static List<String> loadCodes() throws SQLException {
+        Connection con = DBConnection.getInstance().getConnection();
+        ResultSet resultSet = con.createStatement().executeQuery("SELECT code FROM Item");
+
+        List<String> data =new ArrayList<>();
+
+        while (resultSet.next()) {
+            data.add(resultSet.getString(1));
+        }
+        return data;
+    }
+
+    public static Item searchById(String code) throws SQLException {
+        PreparedStatement pstm = DBConnection.getInstance().getConnection()
+                .prepareStatement("SELECT * FROM Item WHERE code = ?");
+        pstm.setString(1, code);
+        ResultSet resultSet = pstm.executeQuery();
+
+        if(resultSet.next()) {
+            return new Item(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getDouble(3),
+                    resultSet.getInt(4)
+            );
+        }
+        return null;
+    }
 }
