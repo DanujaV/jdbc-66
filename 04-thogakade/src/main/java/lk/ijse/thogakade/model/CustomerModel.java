@@ -9,6 +9,7 @@ import lk.ijse.thogakade.db.DBConnection;
 import lk.ijse.thogakade.dto.Customer;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,5 +32,35 @@ public class CustomerModel {
             ));
         }
         return data;
+    }
+
+    public static List<String> loadIds() throws SQLException {
+        Connection con = DBConnection.getInstance().getConnection();
+        ResultSet resultSet = con.createStatement().executeQuery("SELECT id FROM Customer");
+
+        List<String> data = new ArrayList<>();
+
+        while (resultSet.next()) {
+            data.add(resultSet.getString(1));
+        }
+        return data;
+    }
+
+    public static Customer searchById(String id) throws SQLException {
+        Connection con = DBConnection.getInstance().getConnection();
+
+        PreparedStatement pstm = con.prepareStatement("SELECT * FROM Customer WHERE id = ?");
+        pstm.setString(1, id);
+
+        ResultSet resultSet = pstm.executeQuery();
+        if(resultSet.next()) {
+            return  new Customer(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDouble(4)
+            );
+        }
+        return null;
     }
 }

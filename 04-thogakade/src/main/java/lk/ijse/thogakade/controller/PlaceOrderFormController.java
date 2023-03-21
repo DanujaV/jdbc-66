@@ -6,22 +6,25 @@ package lk.ijse.thogakade.controller;
 */
 
 import com.jfoenix.controls.JFXComboBox;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.thogakade.dto.Customer;
+import lk.ijse.thogakade.model.CustomerModel;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PlaceOrderFormController implements Initializable {
     @FXML
-    private JFXComboBox<?> cmbCustomerId;
+    private JFXComboBox<String> cmbCustomerId;
 
     @FXML
     private JFXComboBox<?> cmbItemCode;
@@ -74,6 +77,22 @@ public class PlaceOrderFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setOrderDate();
+        loadCustomerIds();
+    }
+
+    private void loadCustomerIds() {
+        try {
+            ObservableList<String> obList = FXCollections.observableArrayList();
+            List<String> ids = CustomerModel.loadIds();
+
+            for (String id : ids) {
+                obList.add(id);
+            }
+            cmbCustomerId.setItems(obList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
     }
 
     private void setOrderDate() {
@@ -102,7 +121,15 @@ public class PlaceOrderFormController implements Initializable {
 
     @FXML
     void cmbCustomerOnAction(ActionEvent event) {
+        String id = cmbCustomerId.getValue();
 
+        try {
+            Customer customer = CustomerModel.searchById(id);
+            lblCustomerName.setText(customer.getName());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
     }
 
     @FXML
