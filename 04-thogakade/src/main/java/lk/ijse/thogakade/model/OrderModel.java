@@ -27,12 +27,12 @@ public class OrderModel {
 
     private static String splitOrderId(String currentId) {
         if(currentId != null) {
-            String[] strings = currentId.split("D0");
+            String[] strings = currentId.split("O0");
             int id = Integer.parseInt(strings[1]);
             id++;
-            return "D0" + id;
+            return "O0" + id;
         }
-        return "D001";
+        return "O001";
     }
 
 }
