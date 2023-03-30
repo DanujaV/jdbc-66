@@ -201,8 +201,13 @@ public class PlaceOrderFormController implements Initializable {
     }
 
     @FXML
-    void btnBackOnAction(ActionEvent event) {
+    void btnBackOnAction(ActionEvent event) throws IOException {
+        Parent anchorPane = FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+        Stage stage = (Stage) pane.getScene().getWindow();
+        stage.setScene(new Scene(anchorPane));
+        stage.setTitle("Dashboard");
 
+        stage.centerOnScreen();
     }
 
     private void setRemoveBtnOnAction(Button btn) {
