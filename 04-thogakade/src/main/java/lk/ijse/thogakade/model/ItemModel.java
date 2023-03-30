@@ -8,6 +8,7 @@ package lk.ijse.thogakade.model;
 import lk.ijse.thogakade.db.DBConnection;
 import lk.ijse.thogakade.dto.CartDTO;
 import lk.ijse.thogakade.dto.Item;
+import lk.ijse.thogakade.util.CrudUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -67,7 +68,16 @@ public class ItemModel {
     }
 
     public static boolean save(Item item) throws SQLException {
-        try (Connection con = DriverManager.getConnection(URL, props)) {
+        String sql = "INSERT INTO Item(code, description, unitPrice, qtyOnHand) " +
+                "VALUES(?, ?, ?, ?)";
+        return CrudUtil.execute(
+                sql,
+                item.getCode(),
+                item.getDescription(),
+                item.getUnitPrice(),
+                item.getQtyOnHand());
+
+       /* try (Connection con = DriverManager.getConnection(URL, props)) {
             String sql = "INSERT INTO Item(code, description, unitPrice, qtyOnHand) " +
                     "VALUES(?, ?, ?, ?)";
 
@@ -78,7 +88,7 @@ public class ItemModel {
             pstm.setInt(4, item.getQtyOnHand());
 
             return pstm.executeUpdate() > 0;
-        }
+        }*/
     }
 
     public static List<Item> getAll() throws SQLException {
