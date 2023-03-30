@@ -19,17 +19,20 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.thogakade.dto.CartDTO;
 import lk.ijse.thogakade.dto.Customer;
 import lk.ijse.thogakade.dto.Item;
 import lk.ijse.thogakade.dto.tm.CartTM;
 import lk.ijse.thogakade.model.CustomerModel;
 import lk.ijse.thogakade.model.ItemModel;
 import lk.ijse.thogakade.model.OrderModel;
+import lk.ijse.thogakade.model.PlaceOrderModel;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -243,6 +246,29 @@ public class PlaceOrderFormController implements Initializable {
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
+        String oId = lblOrderId.getText();
+        String cusId = cmbCustomerId.getValue();
+
+        List<CartDTO> cartDTOList = new ArrayList<>();
+
+        for (int i = 0; i < tblOrderCart.getItems().size(); i++) {
+            CartTM cartTM = obList.get(i);
+
+            CartDTO dto = new CartDTO(
+                    cartTM.getCode(),
+                    cartTM.getQty(),
+                    cartTM.getUnitPrice()
+            );
+            cartDTOList.add(dto);
+        }
+
+        boolean isPlaced = PlaceOrderModel.placeOrder(oId, cusId, cartDTOList);
+
+        if(isPlaced) {
+            new Alert(Alert.AlertType.CONFIRMATION, "Order Placed").show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Order Not Placed").show();
+        }
 
     }
 
