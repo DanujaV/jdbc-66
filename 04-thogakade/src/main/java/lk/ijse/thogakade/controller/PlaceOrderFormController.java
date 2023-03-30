@@ -262,14 +262,18 @@ public class PlaceOrderFormController implements Initializable {
             cartDTOList.add(dto);
         }
 
-        boolean isPlaced = PlaceOrderModel.placeOrder(oId, cusId, cartDTOList);
-
-        if(isPlaced) {
-            new Alert(Alert.AlertType.CONFIRMATION, "Order Placed").show();
-        } else {
-            new Alert(Alert.AlertType.ERROR, "Order Not Placed").show();
+        boolean isPlaced = false;
+        try {
+            isPlaced = PlaceOrderModel.placeOrder(oId, cusId, cartDTOList);
+            if(isPlaced) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Order Placed").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Order Not Placed").show();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error").show();
         }
-
     }
 
     @FXML

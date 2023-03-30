@@ -7,9 +7,8 @@ package lk.ijse.thogakade.model;
 
 import lk.ijse.thogakade.db.DBConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 
 public class OrderModel {
     public static String getNextOrderId() throws SQLException {
@@ -35,4 +34,16 @@ public class OrderModel {
         return "O001";
     }
 
+    public static boolean save(String oId, String cusId, LocalDate date) throws SQLException {
+        Connection con = DBConnection.getInstance().getConnection();
+
+        String sql = "INSERT INTO Orders(id, customerId, date) VALUES(?, ?, ?)";
+
+        PreparedStatement pstm = con.prepareStatement(sql);
+        pstm.setString(1, oId);
+        pstm.setString(2, cusId);
+        pstm.setDate(3, Date.valueOf(date));
+
+        return pstm.executeUpdate() > 0;
+    }
 }
